@@ -332,26 +332,31 @@
       }
     }
 
-    // 공용 모달 데이터 적용 및 노출
-    function openModal(title, url, icon, color, desc, steps) {
-        const modal = document.getElementById('modal');
-        document.getElementById('modal-title').innerText = title;
-        document.getElementById('modal-desc').innerHTML = desc;
-        document.getElementById('modal-link').href = url;
-        document.getElementById('modal-icon').innerText = icon;
-        document.getElementById('modal-content').innerHTML = steps.map((step, index) => `
-            <div class="flex items-start gap-3">
-                <span class="flex-shrink-0 font-extrabold text-[10px] md:text-xs px-2 py-1 rounded-md bg-slate-200 text-slate-600">Step ${index + 1}</span>
-                <span class="leading-relaxed break-keep text-slate-700 responsive-text">${step}</span>
-            </div>
-        `).join('');
-        
-        const iconEl = document.getElementById('modal-icon');
-        iconEl.style.backgroundColor = color + '15';
-        iconEl.style.color = color;
-        document.getElementById('modal-link').style.backgroundColor = color;
-        modal.classList.remove('hidden');
-    }
+// 공용 모달 데이터 적용 및 노출
+function openModal(title, url, icon, color, desc, steps) {
+    const modal = document.getElementById('modal');
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-desc').innerHTML = desc;
+    document.getElementById('modal-link').href = url;
+    document.getElementById('modal-icon').innerText = icon;
+    
+    // 💡 주석 처리 기호(//)를 꼭 붙여주세요!
+    // 언어에 따라 버튼 텍스트 동적 변경 변경
+    document.getElementById('modal-link').innerText = currentLang === 'ko' ? '바로가기' : 'GO';
+    
+    document.getElementById('modal-content').innerHTML = steps.map((step, index) => `
+        <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 font-extrabold text-[10px] md:text-xs px-2 py-1 rounded-md bg-slate-200 text-slate-600">Step ${index + 1}</span>
+            <span class="leading-relaxed break-keep text-slate-700 responsive-text">${step}</span>
+        </div>
+    `).join('');
+
+    const iconEl = document.getElementById('modal-icon');
+    iconEl.style.backgroundColor = color + '15';
+    iconEl.style.color = color;
+    document.getElementById('modal-link').style.backgroundColor = color;
+    modal.classList.remove('hidden');
+}
 
     function closeModal() { 
         document.getElementById('modal').classList.add('hidden'); 

@@ -144,29 +144,29 @@
       top: 15.95% !important;
       left: 25.8% !important;    
       width: 21% !important;   
-      height: 15% !important;  
+      height: 1% !important;  
     }
 
     .link-right {
       top: 15.95% !important;
       left: 53.3% !important;    
       width: 21% !important;   
-      height: 15% !important;  
+      height: 1% !important;  
     }
 
-    /* 🇺🇸 [English (EN) Version Positions - overrides JS top of 15.95% via body .en class] */
+    /* 🇺🇸 [English (EN) Version Positions - overrides via body .en class] */
     .en .link-left {
       top: 15.6% !important;
       left: 26% !important;    
       width: 21% !important;   
-      height: 15% !important;  
+      height: 1% !important;  
     }
 
     .en .link-right {
       top: 15.6% !important;
       left: 53.4% !important;    
       width: 21% !important;   
-      height: 15% !important;  
+      height: 1% !important;  
     }
 
     .responsive-text { 
@@ -1088,8 +1088,8 @@
       } else if (lang === 'en') {
         document.body.classList.add('en');
         imgTarget.src = '영문_모바일-상세페이지.png';
-        leftLink.style.top = '15.95%'; // Overridden by .en .link-left in CSS
-        rightLink.style.top = '15.95%'; // Overridden by .en .link-right in CSS
+        leftLink.style.top = '15.6%';
+        rightLink.style.top = '15.6%';
       }
       
       viewSection.style.display = 'block';

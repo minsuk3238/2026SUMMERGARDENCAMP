@@ -1054,10 +1054,10 @@
 
   <!-- 목차를 포함하는 메인 레이아웃 래퍼 -->
   <div id="detailContainer" class="hidden relative max-w-[500px] mt-10 mx-auto justify-center">
-    <!-- 좌측 목차 (PC 전용): 이미지가 중앙을 유지하도록 fixed 위치로 배치 (왼쪽 여백 배치) -->
-    <aside class="hidden md:block w-[200px] fixed left-[calc(50%-474px)] top-[60px] h-fit bg-white p-5 rounded-2xl shadow-md border border-slate-100 z-30">
-      <h4 class="font-bold text-slate-800 text-xs mb-4 tracking-wider text-center flex items-center justify-center gap-1 whitespace-nowrap">
-        CAMP NAVI
+    <!-- 좌측 목차 (PC 전용): 이미지가 중앙을 유지하도록 fixed 위치로 배치 (왼쪽 여백 배치), 처음엔 숨김 -->
+    <aside class="hidden md:block w-[200px] fixed left-[calc(50%-474px)] top-[60px] h-fit bg-white p-5 rounded-2xl shadow-md border border-slate-100 z-30 transition-all duration-300 opacity-0 pointer-events-none">
+      <h4 id="tocHeader" class="font-bold text-slate-800 text-xs mb-4 tracking-wider text-center flex items-center justify-center gap-1 whitespace-nowrap">
+        캠프 네비
       </h4>
       <ul class="space-y-1.5 text-xs font-semibold">
         <li>
@@ -1077,8 +1077,8 @@
 
     <!-- 상세페이지 본문 (page-view-section) -->
     <div id="pageView" class="page-view-section max-w-[500px] relative">
-      <!-- 모바일용 상단 고정 네비바 (TOC, 모바일 전용) -->
-      <nav class="md:hidden sticky top-0 z-30 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100 flex justify-around text-[10px] font-bold py-2.5 w-full flex-nowrap overflow-x-auto">
+      <!-- 모바일용 상단 고정 네비바 (TOC, 모바일 전용), 처음엔 숨김 -->
+      <nav class="md:hidden sticky top-0 z-30 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100 flex justify-around text-[10px] font-bold py-2.5 w-full flex-nowrap overflow-x-auto transition-all duration-300 opacity-0 pointer-events-none">
         <a href="#sec-main" onclick="scrollToAnchor(event, 'sec-main')" class="toc-item-m active px-2.5 py-1 rounded-full text-emerald-600 bg-emerald-50 transition-all duration-200 whitespace-nowrap">메인</a>
         <a href="#sec-scout" onclick="scrollToAnchor(event, 'sec-scout')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200 whitespace-nowrap">Scout!</a>
         <a href="#sec-camp" onclick="scrollToAnchor(event, 'sec-camp')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200 whitespace-nowrap">Camp!</a>
@@ -1170,6 +1170,12 @@
           item.textContent = mTexts[lang][idx];
         }
       });
+
+      // 좌측 사이드바 헤더 번역 적용
+      const headerEl = document.getElementById('tocHeader');
+      if (headerEl) {
+        headerEl.textContent = lang === 'ko' ? '캠프 네비' : 'CAMP NAVI';
+      }
     }
 
     // 부드러운 스크롤 이동 함수
@@ -1204,6 +1210,26 @@
           if (rect.top <= offset + 60) {
             activeId = id;
           }
+        }
+      }
+
+      // 상세페이지(detailContainer)가 보이고 있을 때, 이미지 메인 영역(TOP 0%) 도착 전에는 목차 숨김, 도착 시 노출
+      const container = document.getElementById('detailContainer');
+      const asideEl = document.querySelector('aside');
+      const navEl = document.querySelector('nav');
+      if (container && !container.classList.contains('hidden')) {
+        const rect = container.getBoundingClientRect();
+        // 상세페이지 최상단이 화면 상단 근처에 진입했을 때 (offset 보정치 이내)
+        if (rect.top <= offset + 10) {
+          asideEl.classList.remove('opacity-0', 'pointer-events-none');
+          asideEl.classList.add('opacity-100', 'pointer-events-auto');
+          navEl.classList.remove('opacity-0', 'pointer-events-none');
+          navEl.classList.add('opacity-100', 'pointer-events-auto');
+        } else {
+          asideEl.classList.add('opacity-0', 'pointer-events-none');
+          asideEl.classList.remove('opacity-100', 'pointer-events-auto');
+          navEl.classList.add('opacity-0', 'pointer-events-none');
+          navEl.classList.remove('opacity-100', 'pointer-events-auto');
         }
       }
 

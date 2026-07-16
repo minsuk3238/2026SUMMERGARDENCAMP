@@ -1052,11 +1052,51 @@
     </div>
   </div>
 
-  <div id="pageView" class="page-view-section">
-    <img id="pageImage" src="" alt="상세페이지">
-    
-    <button id="leftOverlayLink" onclick="clickLeftButton()" class="click-button link-left"></button>
-    <button id="rightOverlayLink" onclick="clickRightButton()" class="click-button link-right"></button>
+  <!-- 목차를 포함하는 메인 레이아웃 래퍼 -->
+  <div id="detailContainer" class="hidden w-full max-w-[760px] md:flex gap-6 mt-10 relative items-start justify-center">
+    <!-- 좌측 목차 (PC 전용) -->
+    <aside class="hidden md:block w-[200px] shrink-0 sticky top-6 h-fit bg-white p-5 rounded-2xl shadow-md border border-slate-100">
+      <h4 class="font-bold text-slate-800 text-xs mb-4 tracking-wider text-center flex items-center justify-center gap-1">
+        <span class="text-emerald-500">🌲</span> CAMP NAVI
+      </h4>
+      <ul class="space-y-1.5 text-xs font-semibold">
+        <li>
+          <a href="#sec-main" onclick="scrollToAnchor(event, 'sec-main')" class="toc-item active block py-2.5 px-3.5 rounded-xl bg-emerald-50 text-emerald-600 transition-all duration-200">🏠 메인</a>
+        </li>
+        <li>
+          <a href="#sec-scout" onclick="scrollToAnchor(event, 'sec-scout')" class="toc-item block py-2.5 px-3.5 rounded-xl text-slate-500 hover:bg-slate-50 transition-all duration-200">👣 Garden Scout!</a>
+        </li>
+        <li>
+          <a href="#sec-camp" onclick="scrollToAnchor(event, 'sec-camp')" class="toc-item block py-2.5 px-3.5 rounded-xl text-slate-500 hover:bg-slate-50 transition-all duration-200">🏕️ Enjoy Camp!</a>
+        </li>
+        <li>
+          <a href="#sec-souvenir" onclick="scrollToAnchor(event, 'sec-souvenir')" class="toc-item block py-2.5 px-3.5 rounded-xl text-slate-500 hover:bg-slate-50 transition-all duration-200">🎁 맛있는 휴식 & 기념품</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- 상세페이지 본문 (page-view-section) -->
+    <div id="pageView" class="page-view-section max-w-[500px] relative">
+      <!-- 모바일용 상단 고정 네비바 (TOC, 모바일 전용) -->
+      <nav class="md:hidden sticky top-0 z-30 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100 flex justify-around text-[10px] font-bold py-2.5 w-full">
+        <a href="#sec-main" onclick="scrollToAnchor(event, 'sec-main')" class="toc-item-m active px-2.5 py-1 rounded-full text-emerald-600 bg-emerald-50 transition-all duration-200">🏠 메인</a>
+        <a href="#sec-scout" onclick="scrollToAnchor(event, 'sec-scout')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200">Scout!</a>
+        <a href="#sec-camp" onclick="scrollToAnchor(event, 'sec-camp')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200">Camp!</a>
+        <a href="#sec-souvenir" onclick="scrollToAnchor(event, 'sec-souvenir')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200">휴식/기념품</a>
+      </nav>
+
+      <!-- 내용 이미지 및 기존 버튼 -->
+      <img id="pageImage" src="" alt="상세페이지">
+      
+      <!-- 앵커 표시용 빨간 박스 (사용자 Y축 조정용) -->
+      <div id="sec-main" class="scroll-anchor flex items-center justify-center border-2 border-red-500 bg-red-500/15 text-red-600 font-extrabold text-[12px]" style="position: absolute; top: 0%; left: 0; width: 100%; height: 80px; z-index: 20;">1. 메인 (0%)</div>
+      <div id="sec-scout" class="scroll-anchor flex items-center justify-center border-2 border-red-500 bg-red-500/15 text-red-600 font-extrabold text-[12px]" style="position: absolute; top: 25%; left: 0; width: 100%; height: 80px; z-index: 20;">2. You're a Garden Scout! (25%)</div>
+      <div id="sec-camp" class="scroll-anchor flex items-center justify-center border-2 border-red-500 bg-red-500/15 text-red-600 font-extrabold text-[12px]" style="position: absolute; top: 50%; left: 0; width: 100%; height: 80px; z-index: 20;">3. Enjoy Summer Camp! (50%)</div>
+      <div id="sec-souvenir" class="scroll-anchor flex items-center justify-center border-2 border-red-500 bg-red-500/15 text-red-600 font-extrabold text-[12px]" style="position: absolute; top: 75%; left: 0; width: 100%; height: 80px; z-index: 20;">4. 맛있는 휴식 & 기념품 (75%)</div>
+
+      <button id="leftOverlayLink" onclick="clickLeftButton()" class="click-button link-left"></button>
+      <button id="rightOverlayLink" onclick="clickRightButton()" class="click-button link-right"></button>
+    </div>
   </div>
 
   <div id="modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50 backdrop-blur-sm">
@@ -1075,6 +1115,7 @@
 
     function loadPage(lang) {
       currentLang = lang;
+      const container = document.getElementById('detailContainer');
       const viewSection = document.getElementById('pageView');
       const imgTarget = document.getElementById('pageImage');
       const leftLink = document.getElementById('leftOverlayLink');
@@ -1092,12 +1133,102 @@
         rightLink.style.top = '15.6%';
       }
       
+      container.classList.remove('hidden');
       viewSection.style.display = 'block';
       
+      // 언어 변경 시 목차 텍스트 동적 반영
+      updateTOCTexts(lang);
+      
       setTimeout(() => {
-        viewSection.scrollIntoView({ behavior: 'smooth' });
+        container.scrollIntoView({ behavior: 'smooth' });
       }, 50);
     }
+
+    // 목차 언어 동적 업데이트 함수
+    function updateTOCTexts(lang) {
+      const pcItems = document.querySelectorAll('.toc-item');
+      const mobileItems = document.querySelectorAll('.toc-item-m');
+      
+      const texts = {
+        ko: ['🏠 메인', "👣 You're a Garden Scout!", '🏕️ Enjoy Summer Camp!', '🎁 맛있는 휴식 & 기념품'],
+        en: ['🏠 Main', '👣 Garden Scout!', '🏕️ Enjoy Summer Camp!', '🎁 Snack & Souvenirs']
+      };
+      
+      const mTexts = {
+        ko: ['🏠 메인', 'Scout!', 'Camp!', '휴식/기념품'],
+        en: ['🏠 Main', 'Scout!', 'Camp!', 'Souvenirs']
+      };
+      
+      pcItems.forEach((item, idx) => {
+        if(texts[lang] && texts[lang][idx]) {
+          item.textContent = texts[lang][idx];
+        }
+      });
+      
+      mobileItems.forEach((item, idx) => {
+        if(mTexts[lang] && mTexts[lang][idx]) {
+          item.textContent = mTexts[lang][idx];
+        }
+      });
+    }
+
+    // 부드러운 스크롤 이동 함수
+    function scrollToAnchor(event, id) {
+      event.preventDefault();
+      const target = document.getElementById(id);
+      if (target) {
+        // 모바일 헤더 네비게이션 높이를 고려한 오프셋 보정 (약 50px)
+        const offset = document.querySelector('nav').offsetHeight || 50;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const targetRect = target.getBoundingClientRect().top;
+        const targetPosition = targetRect - bodyRect;
+        const offsetPosition = targetPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // 스크롤 감지 및 목차 동적 활성화 (ScrollSpy)
+    window.addEventListener('scroll', () => {
+      const anchors = ['sec-main', 'sec-scout', 'sec-camp', 'sec-souvenir'];
+      const offset = (document.querySelector('nav') ? document.querySelector('nav').offsetHeight : 50) + 20;
+      let activeId = 'sec-main';
+
+      for (const id of anchors) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= offset + 60) {
+            activeId = id;
+          }
+        }
+      }
+
+      // PC 목차 활성화 클래스 조율
+      document.querySelectorAll('.toc-item').forEach(item => {
+        if (item.getAttribute('href') === `#${activeId}`) {
+          item.classList.add('active', 'text-emerald-600', 'bg-emerald-50');
+          item.classList.remove('text-slate-500', 'hover:bg-slate-50');
+        } else {
+          item.classList.remove('active', 'text-emerald-600', 'bg-emerald-50');
+          item.classList.add('text-slate-500', 'hover:bg-slate-50');
+        }
+      });
+
+      // 모바일 네비바 활성화 클래스 조율
+      document.querySelectorAll('.toc-item-m').forEach(item => {
+        if (item.getAttribute('href') === `#${activeId}`) {
+          item.classList.add('active', 'text-emerald-600', 'bg-emerald-50');
+          item.classList.remove('text-slate-500');
+        } else {
+          item.classList.remove('active', 'text-emerald-600', 'bg-emerald-50');
+          item.classList.add('text-slate-500');
+        }
+      });
+    });
 
     // 왼쪽 버튼 (가든 스탬프 투어) 데이터 매핑
     function clickLeftButton() {

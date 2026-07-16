@@ -1054,8 +1054,20 @@
 
   <!-- 목차를 포함하는 메인 레이아웃 래퍼 -->
   <div id="detailContainer" class="hidden relative max-w-[500px] mt-10 mx-auto justify-center">
+    <!-- 모바일 목차 드로어 배경 오버레이 (모바일 전용) -->
+    <div id="tocOverlay" class="fixed inset-0 bg-black/40 z-20 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden" onclick="toggleTOC(false)"></div>
+
+    <!-- 모바일용 목차 열기 핸들 버튼 (모바일 전용) -->
+    <button id="tocHandle" onclick="toggleTOC(true)" class="md:hidden fixed left-0 top-[150px] z-30 bg-emerald-500 hover:bg-emerald-600 text-white py-3 px-1.5 rounded-r-xl shadow-lg border border-emerald-400/50 flex flex-col items-center gap-1.5 transition-all duration-300 opacity-0 pointer-events-none">
+      <span id="tocHandleText" class="text-[10px] font-extrabold" style="writing-mode: vertical-rl; text-orientation: keep-all; letter-spacing: 0.1em;">목차</span>
+      <span class="text-[8px] transform rotate-90">▼</span>
+    </button>
+
     <!-- 좌측 목차 (PC/모바일 통합 플로팅): 이미지가 중앙을 유지하도록 배치, 처음엔 숨김 -->
-    <aside class="w-[130px] md:w-[200px] fixed left-3 top-[90px] md:left-[calc(50%-474px)] md:top-[60px] h-fit bg-white/95 p-4 md:p-5 rounded-2xl shadow-2xl border-2 border-emerald-500 md:border md:border-slate-100 z-30 transition-all duration-300 opacity-0 pointer-events-none">
+    <aside id="tocAside" class="w-[200px] fixed left-0 top-0 h-full md:h-fit md:top-[60px] md:left-[calc(50%-474px)] bg-white p-5 rounded-r-2xl md:rounded-2xl shadow-2xl md:shadow-md border-r-2 border-emerald-500 md:border md:border-slate-100 z-30 transform -translate-x-full md:translate-x-0 transition-all duration-300 opacity-100 md:opacity-0 md:pointer-events-none">
+      <!-- 모바일용 목차 닫기 버튼 (모바일 전용) -->
+      <button onclick="toggleTOC(false)" class="md:hidden absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+      
       <h4 id="tocHeader" class="font-extrabold text-emerald-800 text-xs mb-3 md:mb-4 tracking-wider text-center flex items-center justify-center gap-1 whitespace-nowrap border-b-2 border-emerald-100 pb-2">
         캠프 네비
       </h4>
@@ -1138,6 +1150,23 @@
 
     let lastScrollY = window.scrollY;
 
+    // 모바일 목차 드로어 토글 함수
+    function toggleTOC(isOpen) {
+      const asideEl = document.getElementById('tocAside');
+      const overlayEl = document.getElementById('tocOverlay');
+      if (asideEl && overlayEl) {
+        if (isOpen) {
+          asideEl.classList.remove('-translate-x-full');
+          overlayEl.classList.remove('opacity-0', 'pointer-events-none');
+          overlayEl.classList.add('opacity-100', 'pointer-events-auto');
+        } else {
+          asideEl.classList.add('-translate-x-full');
+          overlayEl.classList.add('opacity-0', 'pointer-events-none');
+          overlayEl.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+      }
+    }
+
     // 목차 언어 동적 업데이트 함수
     function updateTOCTexts(lang) {
       const pcItems = document.querySelectorAll('.toc-item');
@@ -1158,11 +1187,23 @@
       if (headerEl) {
         headerEl.textContent = lang === 'ko' ? '캠프 네비' : 'CAMP NAVI';
       }
+
+      // 모바일용 목차 핸들 버튼 텍스트 번역 적용
+      const handleTextEl = document.getElementById('tocHandleText');
+      if (handleTextEl) {
+        handleTextEl.textContent = lang === 'ko' ? '목차' : 'NAVI';
+      }
     }
 
     // 부드러운 스크롤 이동 함수
     function scrollToAnchor(event, id) {
       event.preventDefault();
+      
+      // 모바일인 경우 이동 전 목차 드로어를 닫아줌
+      if (window.innerWidth < 768) {
+        toggleTOC(false);
+      }
+
       const target = document.getElementById(id);
       if (target) {
         // 모바일과 PC 모두 동일한 사이드바로 60px Offset 적용
@@ -1201,30 +1242,33 @@
 
       // 상세페이지(detailContainer)가 보이고 있을 때 가시성 동적 제어
       const container = document.getElementById('detailContainer');
-      const asideEl = document.querySelector('aside');
+      const asideEl = document.getElementById('tocAside');
+      const handleEl = document.getElementById('tocHandle');
+      
       if (container && !container.classList.contains('hidden')) {
         const rect = container.getBoundingClientRect();
         
         // 상세페이지 본문에 도달했고
         if (rect.top <= offset) {
-          // 모바일(window.innerWidth < 768)일 때는 스크롤 내릴 때만 노출
           if (window.innerWidth < 768) {
-            if (isScrollingDown) {
-              asideEl.classList.remove('opacity-0', 'pointer-events-none');
-              asideEl.classList.add('opacity-100', 'pointer-events-auto');
-            } else {
-              asideEl.classList.add('opacity-0', 'pointer-events-none');
-              asideEl.classList.remove('opacity-100', 'pointer-events-auto');
-            }
+            // 모바일: 핸들 버튼 노출
+            handleEl.classList.remove('opacity-0', 'pointer-events-none');
+            handleEl.classList.add('opacity-100', 'pointer-events-auto');
           } else {
-            // PC인 경우는 본문 영역이면 항상 노출
+            // PC: 좌측 목차 노출
             asideEl.classList.remove('opacity-0', 'pointer-events-none');
             asideEl.classList.add('opacity-100', 'pointer-events-auto');
           }
         } else {
           // 게이트웨이 화면 영역에 있을 때는 무조건 숨김
-          asideEl.classList.add('opacity-0', 'pointer-events-none');
-          asideEl.classList.remove('opacity-100', 'pointer-events-auto');
+          if (window.innerWidth < 768) {
+            handleEl.classList.add('opacity-0', 'pointer-events-none');
+            handleEl.classList.remove('opacity-100', 'pointer-events-auto');
+            toggleTOC(false); // 드로어도 닫음
+          } else {
+            asideEl.classList.add('opacity-0', 'pointer-events-none');
+            asideEl.classList.remove('opacity-100', 'pointer-events-auto');
+          }
         }
       }
 

@@ -1053,24 +1053,24 @@
   </div>
 
   <!-- 목차를 포함하는 메인 레이아웃 래퍼 -->
-  <div id="detailContainer" class="hidden w-full max-w-[760px] md:flex gap-6 mt-10 relative items-start justify-center">
-    <!-- 좌측 목차 (PC 전용) -->
-    <aside class="hidden md:block w-[200px] shrink-0 sticky top-6 h-fit bg-white p-5 rounded-2xl shadow-md border border-slate-100">
-      <h4 class="font-bold text-slate-800 text-xs mb-4 tracking-wider text-center flex items-center justify-center gap-1">
-        <span class="text-emerald-500">🌲</span> CAMP NAVI
+  <div id="detailContainer" class="hidden relative max-w-[500px] mt-10 mx-auto justify-center">
+    <!-- 좌측 목차 (PC 전용): 이미지가 중앙을 유지하도록 fixed 위치로 배치 (왼쪽 여백 배치) -->
+    <aside class="hidden md:block w-[200px] fixed left-[calc(50%-474px)] top-[60px] h-fit bg-white p-5 rounded-2xl shadow-md border border-slate-100 z-30">
+      <h4 class="font-bold text-slate-800 text-xs mb-4 tracking-wider text-center flex items-center justify-center gap-1 whitespace-nowrap">
+        CAMP NAVI
       </h4>
       <ul class="space-y-1.5 text-xs font-semibold">
         <li>
-          <a href="#sec-main" onclick="scrollToAnchor(event, 'sec-main')" class="toc-item active block py-2.5 px-3.5 rounded-xl bg-emerald-50 text-emerald-600 transition-all duration-200">🏠 메인</a>
+          <a href="#sec-main" onclick="scrollToAnchor(event, 'sec-main')" class="toc-item active block py-2.5 px-3.5 rounded-xl bg-emerald-50 text-emerald-600 transition-all duration-200 whitespace-nowrap">메인</a>
         </li>
         <li>
-          <a href="#sec-scout" onclick="scrollToAnchor(event, 'sec-scout')" class="toc-item block py-2.5 px-3.5 rounded-xl text-slate-500 hover:bg-slate-50 transition-all duration-200">👣 Garden Scout!</a>
+          <a href="#sec-scout" onclick="scrollToAnchor(event, 'sec-scout')" class="toc-item block py-2.5 px-3.5 rounded-xl text-slate-500 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap">Garden Scout!</a>
         </li>
         <li>
-          <a href="#sec-camp" onclick="scrollToAnchor(event, 'sec-camp')" class="toc-item block py-2.5 px-3.5 rounded-xl text-slate-500 hover:bg-slate-50 transition-all duration-200">🏕️ Enjoy Camp!</a>
+          <a href="#sec-camp" onclick="scrollToAnchor(event, 'sec-camp')" class="toc-item block py-2.5 px-3.5 rounded-xl text-slate-500 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap">Enjoy Camp!</a>
         </li>
         <li>
-          <a href="#sec-souvenir" onclick="scrollToAnchor(event, 'sec-souvenir')" class="toc-item block py-2.5 px-3.5 rounded-xl text-slate-500 hover:bg-slate-50 transition-all duration-200">🎁 맛있는 휴식 & 기념품</a>
+          <a href="#sec-souvenir" onclick="scrollToAnchor(event, 'sec-souvenir')" class="toc-item block py-2.5 px-3.5 rounded-xl text-slate-500 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap">맛있는 휴식 & 기념품</a>
         </li>
       </ul>
     </aside>
@@ -1078,21 +1078,21 @@
     <!-- 상세페이지 본문 (page-view-section) -->
     <div id="pageView" class="page-view-section max-w-[500px] relative">
       <!-- 모바일용 상단 고정 네비바 (TOC, 모바일 전용) -->
-      <nav class="md:hidden sticky top-0 z-30 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100 flex justify-around text-[10px] font-bold py-2.5 w-full">
-        <a href="#sec-main" onclick="scrollToAnchor(event, 'sec-main')" class="toc-item-m active px-2.5 py-1 rounded-full text-emerald-600 bg-emerald-50 transition-all duration-200">🏠 메인</a>
-        <a href="#sec-scout" onclick="scrollToAnchor(event, 'sec-scout')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200">Scout!</a>
-        <a href="#sec-camp" onclick="scrollToAnchor(event, 'sec-camp')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200">Camp!</a>
-        <a href="#sec-souvenir" onclick="scrollToAnchor(event, 'sec-souvenir')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200">휴식/기념품</a>
+      <nav class="md:hidden sticky top-0 z-30 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100 flex justify-around text-[10px] font-bold py-2.5 w-full flex-nowrap overflow-x-auto">
+        <a href="#sec-main" onclick="scrollToAnchor(event, 'sec-main')" class="toc-item-m active px-2.5 py-1 rounded-full text-emerald-600 bg-emerald-50 transition-all duration-200 whitespace-nowrap">메인</a>
+        <a href="#sec-scout" onclick="scrollToAnchor(event, 'sec-scout')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200 whitespace-nowrap">Scout!</a>
+        <a href="#sec-camp" onclick="scrollToAnchor(event, 'sec-camp')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200 whitespace-nowrap">Camp!</a>
+        <a href="#sec-souvenir" onclick="scrollToAnchor(event, 'sec-souvenir')" class="toc-item-m px-2.5 py-1 rounded-full text-slate-500 transition-all duration-200 whitespace-nowrap">휴식/기념품</a>
       </nav>
 
       <!-- 내용 이미지 및 기존 버튼 -->
       <img id="pageImage" src="" alt="상세페이지">
       
-      <!-- 앵커 표시용 빨간 박스 (사용자 Y축 조정용) -->
-      <div id="sec-main" class="scroll-anchor flex items-center justify-center border-2 border-red-500 bg-red-500/15 text-red-600 font-extrabold text-[12px]" style="position: absolute; top: 0%; left: 0; width: 100%; height: 80px; z-index: 20;">1. 메인 (0%)</div>
-      <div id="sec-scout" class="scroll-anchor flex items-center justify-center border-2 border-red-500 bg-red-500/15 text-red-600 font-extrabold text-[12px]" style="position: absolute; top: 25%; left: 0; width: 100%; height: 80px; z-index: 20;">2. You're a Garden Scout! (25%)</div>
-      <div id="sec-camp" class="scroll-anchor flex items-center justify-center border-2 border-red-500 bg-red-500/15 text-red-600 font-extrabold text-[12px]" style="position: absolute; top: 50%; left: 0; width: 100%; height: 80px; z-index: 20;">3. Enjoy Summer Camp! (50%)</div>
-      <div id="sec-souvenir" class="scroll-anchor flex items-center justify-center border-2 border-red-500 bg-red-500/15 text-red-600 font-extrabold text-[12px]" style="position: absolute; top: 75%; left: 0; width: 100%; height: 80px; z-index: 20;">4. 맛있는 휴식 & 기념품 (75%)</div>
+      <!-- 앵커 위치 지정 (빨간 가이드 박스 제거 후 투명 처리) -->
+      <div id="sec-main" class="scroll-anchor" style="position: absolute; top: 0%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
+      <div id="sec-scout" class="scroll-anchor" style="position: absolute; top: 18%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
+      <div id="sec-camp" class="scroll-anchor" style="position: absolute; top: 42%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
+      <div id="sec-souvenir" class="scroll-anchor" style="position: absolute; top: 75.5%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
 
       <button id="leftOverlayLink" onclick="clickLeftButton()" class="click-button link-left"></button>
       <button id="rightOverlayLink" onclick="clickRightButton()" class="click-button link-right"></button>
@@ -1150,13 +1150,13 @@
       const mobileItems = document.querySelectorAll('.toc-item-m');
       
       const texts = {
-        ko: ['🏠 메인', "👣 You're a Garden Scout!", '🏕️ Enjoy Summer Camp!', '🎁 맛있는 휴식 & 기념품'],
-        en: ['🏠 Main', '👣 Garden Scout!', '🏕️ Enjoy Summer Camp!', '🎁 Snack & Souvenirs']
+        ko: ['메인', "You're a Garden Scout!", 'Enjoy Summer Camp!', '맛있는 휴식 & 기념품'],
+        en: ['Main', 'Garden Scout!', 'Enjoy Summer Camp!', 'Snack & Souvenirs']
       };
       
       const mTexts = {
-        ko: ['🏠 메인', 'Scout!', 'Camp!', '휴식/기념품'],
-        en: ['🏠 Main', 'Scout!', 'Camp!', 'Souvenirs']
+        ko: ['메인', 'Scout!', 'Camp!', '휴식/기념품'],
+        en: ['Main', 'Scout!', 'Camp!', 'Souvenirs']
       };
       
       pcItems.forEach((item, idx) => {

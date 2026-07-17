@@ -1058,13 +1058,13 @@
     <div id="tocOverlay" class="fixed inset-0 bg-black/40 z-20 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden" onclick="toggleTOC(false)"></div>
 
     <!-- 모바일용 목차 열기 핸들 버튼 (모바일 전용) -->
-    <button id="tocHandle" onclick="toggleTOC(true)" class="md:hidden fixed left-0 top-[150px] z-30 bg-emerald-500 hover:bg-emerald-600 text-white py-3 px-1.5 rounded-r-xl shadow-lg border border-emerald-400/50 flex flex-col items-center gap-1.5 transition-all duration-300 opacity-0 pointer-events-none">
-      <span id="tocHandleText" class="text-[10px] font-extrabold" style="writing-mode: vertical-rl; text-orientation: keep-all; letter-spacing: 0.1em;">목차</span>
-      <span class="text-[8px] transform rotate-90">▼</span>
+    <button id="tocHandle" onclick="toggleTOC(true)" class="md:hidden fixed left-0 top-[90px] z-30 bg-emerald-500 hover:bg-emerald-600 text-white py-3.5 px-2 rounded-r-xl shadow-lg border border-emerald-400/50 flex flex-col items-center gap-1.5 transition-all duration-300 opacity-0 pointer-events-none">
+      <span id="tocHandleText" class="text-xs font-black" style="writing-mode: vertical-rl; text-orientation: keep-all; letter-spacing: 0.15em;">목차</span>
+      <span class="text-[9px] transform rotate-90">▼</span>
     </button>
 
     <!-- 좌측 목차 (PC/모바일 통합 플로팅): 이미지가 중앙을 유지하도록 배치, 처음엔 숨김 -->
-    <aside id="tocAside" class="w-[200px] fixed left-0 top-0 h-full md:h-fit md:top-[60px] md:left-[calc(50%-474px)] bg-white p-5 rounded-r-2xl md:rounded-2xl shadow-2xl md:shadow-md border-r-2 border-emerald-500 md:border md:border-slate-100 z-30 transform -translate-x-full md:translate-x-0 transition-all duration-300 opacity-100 md:opacity-0 md:pointer-events-none">
+    <aside id="tocAside" class="w-[240px] md:w-[200px] fixed left-0 top-0 h-full md:h-fit md:top-[60px] md:left-[calc(50%-474px)] bg-white p-6 md:p-5 rounded-r-2xl md:rounded-2xl shadow-2xl md:shadow-md border-r-2 border-emerald-500 md:border md:border-slate-100 z-30 transform -translate-x-full md:translate-x-0 transition-all duration-300 opacity-0 pointer-events-none">
       <!-- 모바일용 목차 닫기 버튼 (모바일 전용) -->
       <button onclick="toggleTOC(false)" class="md:hidden absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
       
@@ -1156,11 +1156,13 @@
       const overlayEl = document.getElementById('tocOverlay');
       if (asideEl && overlayEl) {
         if (isOpen) {
-          asideEl.classList.remove('-translate-x-full');
+          asideEl.classList.remove('-translate-x-full', 'opacity-0', 'pointer-events-none');
+          asideEl.classList.add('opacity-100', 'pointer-events-auto');
           overlayEl.classList.remove('opacity-0', 'pointer-events-none');
           overlayEl.classList.add('opacity-100', 'pointer-events-auto');
         } else {
-          asideEl.classList.add('-translate-x-full');
+          asideEl.classList.add('-translate-x-full', 'opacity-0', 'pointer-events-none');
+          asideEl.classList.remove('opacity-100', 'pointer-events-auto');
           overlayEl.classList.add('opacity-0', 'pointer-events-none');
           overlayEl.classList.remove('opacity-100', 'pointer-events-auto');
         }

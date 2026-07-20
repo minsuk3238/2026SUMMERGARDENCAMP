@@ -1068,8 +1068,8 @@
       <!-- 모바일용 목차 닫기 버튼 (모바일 전용) -->
       <button onclick="toggleTOC(false)" class="md:hidden absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
       
-      <h4 id="tocHeader" class="font-extrabold text-emerald-800 text-xs mb-3 md:mb-4 tracking-wider text-center flex items-center justify-center gap-1 whitespace-nowrap border-b-2 border-emerald-100 pb-2">
-        캠프 네비
+      <h4 id="tocHeader" class="font-extrabold text-emerald-800 text-[11px] md:text-xs mb-3 md:mb-4 tracking-wider text-center flex items-center justify-center gap-1 leading-tight border-b-2 border-emerald-100 pb-2">
+        2026 SNOOPY GARDEN SUMMER CAMP
       </h4>
       <ul class="space-y-2 text-[11px] md:text-xs font-bold">
         <li>
@@ -1180,10 +1180,10 @@
         }
       });
 
-      // 좌측 사이드바 헤더 번역 적용
+      // 좌측 사이드바 헤더 적용
       const headerEl = document.getElementById('tocHeader');
       if (headerEl) {
-        headerEl.textContent = lang === 'ko' ? '캠프 네비' : 'CAMP NAVI';
+        headerEl.textContent = '2026 SNOOPY GARDEN SUMMER CAMP';
       }
 
       // 모바일용 목차 핸들 버튼 텍스트 번역 적용

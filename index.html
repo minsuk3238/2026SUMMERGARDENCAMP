@@ -141,39 +141,64 @@
 
     /* 🇰🇷 [Korean (KO) Version Positions] */
     .link-left {
-      top: 15.95% !important;
-      left: 25.8% !important;    
-      width: 21% !important;   
-      height: 1% !important;  
+      top: 15.3% !important;
+      left: 17% !important;    
+      width: 31% !important;   
+      height: 1.8% !important;  
     }
 
     .link-right {
-      top: 15.95% !important;
-      left: 53.3% !important;    
-      width: 21% !important;   
-      height: 1% !important;  
+      top: 15.3% !important;
+      left: 52.2% !important;    
+      width: 31% !important;   
+      height: 1.8% !important;  
     }
 
     /* 🇺🇸 [English (EN) Version Positions - overrides via body .en class] */
     .en .link-left {
-      top: 15.6% !important;
-      left: 26% !important;    
-      width: 21% !important;   
-      height: 1% !important;  
+      top: 15.2% !important;
+      left: 17% !important;    
+      width: 31% !important;   
+      height: 1.6% !important;  
     }
 
     .en .link-right {
-      top: 15.6% !important;
-      left: 53.4% !important;    
-      width: 21% !important;   
-      height: 1% !important;  
+      top: 15.2% !important;
+      left: 51.8% !important;    
+      width: 31% !important;   
+      height: 1.6% !important;  
+    }
+
+    /* ⚓ Scroll Anchors */
+    .scroll-anchor {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      z-index: 20;
+    }
+
+    #sec-camp {
+      top: 42.1% !important;
+    }
+
+    #sec-souvenir {
+      top: 78.7% !important;
+    }
+
+    .en #sec-camp {
+      top: 42.1% !important;
+    }
+
+    .en #sec-souvenir {
+      top: 78.7% !important;
     }
 
     .responsive-text { 
         word-break: keep-all; 
         overflow-wrap: break-word;
     }
-</style>
+  </style>
 </head>
 <body>
 
@@ -1044,63 +1069,23 @@
       <path class="cls-25" d="M531.94,504.54l.12.08.42-.35c-.19.19-.5-.08-.54.27Z"/>
     </g>
   </g>
-</svg>    </div>
-    <!-- 1. 게이트웨이 언어 선택 버튼 -->
-    <div class="button-group" style="margin-top: 10px;">
-      <button onclick="loadPage('ko')" class="btn-text btn-ko">한국어</button>
+</svg>
+    </div>
+
+    <div class="button-group">
+      <button onclick="loadPage('ko')" class="btn-text btn-ko">한글</button>
       <button onclick="loadPage('en')" class="btn-text btn-en">ENGLISH</button>
     </div>
   </div>
 
-  <!-- 목차를 포함하는 메인 레이아웃 래퍼 -->
-  <div id="detailContainer" class="hidden relative max-w-[500px] mt-10 mx-auto justify-center">
-    <!-- 모바일 목차 드로어 배경 오버레이 (모바일 전용) -->
-    <div id="tocOverlay" class="fixed inset-0 bg-black/40 z-20 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden" onclick="toggleTOC(false)"></div>
+  <div id="pageView" class="page-view-section">
+    <img id="pageImage" src="" alt="상세페이지">
+    
+    <div id="sec-camp" class="scroll-anchor" style="position: absolute; top: 42.1%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
+    <div id="sec-souvenir" class="scroll-anchor" style="position: absolute; top: 78.7%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
 
-    <!-- 모바일용 목차 열기 핸들 버튼 (모바일 전용) -->
-    <button id="tocHandle" onclick="toggleTOC(true)" class="md:hidden fixed left-0 top-[90px] z-30 bg-emerald-500 hover:bg-emerald-600 text-white py-3.5 px-2 rounded-r-xl shadow-lg border border-emerald-400/50 flex flex-col items-center gap-1.5 transition-all duration-300 opacity-0 pointer-events-none">
-      <span id="tocHandleText" class="text-xs font-black" style="writing-mode: vertical-rl; text-orientation: keep-all; letter-spacing: 0.15em;">목차</span>
-      <span class="text-[9px] transform rotate-90">▼</span>
-    </button>
-
-    <!-- 좌측 목차 (PC/모바일 통합 플로팅): 이미지가 중앙을 유지하도록 배치, 처음엔 숨김 -->
-    <aside id="tocAside" class="w-[240px] md:w-[200px] fixed left-0 top-0 h-full md:h-fit md:top-[60px] md:left-[calc(50%-474px)] bg-white p-6 md:p-5 rounded-r-2xl md:rounded-2xl shadow-2xl md:shadow-md border-r-2 border-emerald-500 md:border md:border-slate-100 z-30 transform -translate-x-full md:translate-x-0 transition-all duration-300 opacity-0 pointer-events-none">
-      <!-- 모바일용 목차 닫기 버튼 (모바일 전용) -->
-      <button onclick="toggleTOC(false)" class="md:hidden absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
-      
-      <h4 id="tocHeader" class="font-extrabold text-emerald-800 text-xs mb-3 md:mb-4 tracking-wider text-center flex items-center justify-center gap-1 whitespace-nowrap border-b-2 border-emerald-100 pb-2">
-        캠프 네비
-      </h4>
-      <ul class="space-y-2 text-[11px] md:text-xs font-bold">
-        <li>
-          <a href="#sec-main" onclick="scrollToAnchor(event, 'sec-main')" class="toc-item active block py-2 px-2.5 md:py-2.5 md:px-3.5 rounded-xl bg-emerald-100/70 text-emerald-700 transition-all duration-200 whitespace-nowrap border-l-4 border-emerald-500">메인</a>
-        </li>
-        <li>
-          <a href="#sec-scout" onclick="scrollToAnchor(event, 'sec-scout')" class="toc-item block py-2 px-2.5 md:py-2.5 md:px-3.5 rounded-xl text-slate-600 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap border-l-4 border-transparent">Garden Scout!</a>
-        </li>
-        <li>
-          <a href="#sec-camp" onclick="scrollToAnchor(event, 'sec-camp')" class="toc-item block py-2 px-2.5 md:py-2.5 md:px-3.5 rounded-xl text-slate-600 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap border-l-4 border-transparent">Enjoy Camp!</a>
-        </li>
-        <li>
-          <a href="#sec-souvenir" onclick="scrollToAnchor(event, 'sec-souvenir')" class="toc-item block py-2 px-2.5 md:py-2.5 md:px-3.5 rounded-xl text-slate-600 hover:bg-slate-50 transition-all duration-200 whitespace-nowrap border-l-4 border-transparent">맛있는 휴식 & 기념품</a>
-        </li>
-      </ul>
-    </aside>
-
-    <!-- 상세페이지 본문 (page-view-section) -->
-    <div id="pageView" class="page-view-section max-w-[500px] relative">
-      <!-- 내용 이미지 및 기존 버튼 -->
-      <img id="pageImage" src="" alt="상세페이지">
-      
-      <!-- 앵커 위치 지정 (빨간 가이드 박스 제거 후 투명 처리) -->
-      <div id="sec-main" class="scroll-anchor" style="position: absolute; top: 0%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
-      <div id="sec-scout" class="scroll-anchor" style="position: absolute; top: 18%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
-      <div id="sec-camp" class="scroll-anchor" style="position: absolute; top: 42%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
-      <div id="sec-souvenir" class="scroll-anchor" style="position: absolute; top: 75.5%; left: 0; width: 100%; height: 1px; z-index: 20;"></div>
-
-      <button id="leftOverlayLink" onclick="clickLeftButton()" class="click-button link-left"></button>
-      <button id="rightOverlayLink" onclick="clickRightButton()" class="click-button link-right"></button>
-    </div>
+    <button id="leftOverlayLink" onclick="clickLeftButton()" class="click-button link-left"></button>
+    <button id="rightOverlayLink" onclick="clickRightButton()" class="click-button link-right"></button>
   </div>
 
   <div id="modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50 backdrop-blur-sm">
@@ -1119,172 +1104,23 @@
 
     function loadPage(lang) {
       currentLang = lang;
-      const container = document.getElementById('detailContainer');
       const viewSection = document.getElementById('pageView');
       const imgTarget = document.getElementById('pageImage');
-      const leftLink = document.getElementById('leftOverlayLink');
-      const rightLink = document.getElementById('rightOverlayLink');
       
       if (lang === 'ko') {
         document.body.classList.remove('en');
         imgTarget.src = '국문_모바일-상세페이지.png';
-        leftLink.style.top = '15.95%';
-        rightLink.style.top = '15.95%';
       } else if (lang === 'en') {
         document.body.classList.add('en');
         imgTarget.src = '영문_모바일-상세페이지.png';
-        leftLink.style.top = '15.6%';
-        rightLink.style.top = '15.6%';
       }
       
-      container.classList.remove('hidden');
       viewSection.style.display = 'block';
       
-      // 언어 변경 시 목차 텍스트 동적 반영
-      updateTOCTexts(lang);
-      
       setTimeout(() => {
-        container.scrollIntoView({ behavior: 'smooth' });
+        viewSection.scrollIntoView({ behavior: 'smooth' });
       }, 50);
     }
-
-    let lastScrollY = window.scrollY;
-
-    // 모바일 목차 드로어 토글 함수
-    function toggleTOC(isOpen) {
-      const asideEl = document.getElementById('tocAside');
-      const overlayEl = document.getElementById('tocOverlay');
-      if (asideEl && overlayEl) {
-        if (isOpen) {
-          asideEl.classList.remove('-translate-x-full', 'opacity-0', 'pointer-events-none');
-          asideEl.classList.add('opacity-100', 'pointer-events-auto');
-          overlayEl.classList.remove('opacity-0', 'pointer-events-none');
-          overlayEl.classList.add('opacity-100', 'pointer-events-auto');
-        } else {
-          asideEl.classList.add('-translate-x-full', 'opacity-0', 'pointer-events-none');
-          asideEl.classList.remove('opacity-100', 'pointer-events-auto');
-          overlayEl.classList.add('opacity-0', 'pointer-events-none');
-          overlayEl.classList.remove('opacity-100', 'pointer-events-auto');
-        }
-      }
-    }
-
-    // 목차 언어 동적 업데이트 함수
-    function updateTOCTexts(lang) {
-      const pcItems = document.querySelectorAll('.toc-item');
-      
-      const texts = {
-        ko: ['메인', "You're a Garden Scout!", 'Enjoy Summer Camp!', '맛있는 휴식 & 기념품'],
-        en: ['Main', 'Garden Scout!', 'Enjoy Summer Camp!', 'Snack & Souvenirs']
-      };
-      
-      pcItems.forEach((item, idx) => {
-        if(texts[lang] && texts[lang][idx]) {
-          item.textContent = texts[lang][idx];
-        }
-      });
-
-      // 좌측 사이드바 헤더 번역 적용
-      const headerEl = document.getElementById('tocHeader');
-      if (headerEl) {
-        headerEl.textContent = lang === 'ko' ? '캠프 네비' : 'CAMP NAVI';
-      }
-
-      // 모바일용 목차 핸들 버튼 텍스트 번역 적용
-      const handleTextEl = document.getElementById('tocHandleText');
-      if (handleTextEl) {
-        handleTextEl.textContent = lang === 'ko' ? '목차' : 'NAVI';
-      }
-    }
-
-    // 부드러운 스크롤 이동 함수
-    function scrollToAnchor(event, id) {
-      event.preventDefault();
-      
-      // 모바일인 경우 이동 전 목차 드로어를 닫아줌
-      if (window.innerWidth < 768) {
-        toggleTOC(false);
-      }
-
-      const target = document.getElementById(id);
-      if (target) {
-        // 모바일과 PC 모두 동일한 사이드바로 60px Offset 적용
-        const offset = 60;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const targetRect = target.getBoundingClientRect().top;
-        const targetPosition = targetRect - bodyRect;
-        const offsetPosition = targetPosition - offset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    // 스크롤 감지 및 목차 동적 활성화 (ScrollSpy)
-    window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
-      const isScrollingDown = currentScrollY > lastScrollY;
-      lastScrollY = currentScrollY;
-
-      const anchors = ['sec-main', 'sec-scout', 'sec-camp', 'sec-souvenir'];
-      const offset = 60 + 20; // 80px 보정
-      let activeId = 'sec-main';
-
-      for (const id of anchors) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= offset + 60) {
-            activeId = id;
-          }
-        }
-      }
-
-      // 상세페이지(detailContainer)가 보이고 있을 때 가시성 동적 제어
-      const container = document.getElementById('detailContainer');
-      const asideEl = document.getElementById('tocAside');
-      const handleEl = document.getElementById('tocHandle');
-      
-      if (container && !container.classList.contains('hidden')) {
-        const rect = container.getBoundingClientRect();
-        
-        // 상세페이지 본문에 도달했고
-        if (rect.top <= offset) {
-          if (window.innerWidth < 768) {
-            // 모바일: 핸들 버튼 노출
-            handleEl.classList.remove('opacity-0', 'pointer-events-none');
-            handleEl.classList.add('opacity-100', 'pointer-events-auto');
-          } else {
-            // PC: 좌측 목차 노출
-            asideEl.classList.remove('opacity-0', 'pointer-events-none');
-            asideEl.classList.add('opacity-100', 'pointer-events-auto');
-          }
-        } else {
-          // 게이트웨이 화면 영역에 있을 때는 무조건 숨김
-          if (window.innerWidth < 768) {
-            handleEl.classList.add('opacity-0', 'pointer-events-none');
-            handleEl.classList.remove('opacity-100', 'pointer-events-auto');
-            toggleTOC(false); // 드로어도 닫음
-          } else {
-            asideEl.classList.add('opacity-0', 'pointer-events-none');
-            asideEl.classList.remove('opacity-100', 'pointer-events-auto');
-          }
-        }
-      }
-
-      // PC 및 모바일 공용 목차 활성화 클래스 조율 (가시성 대폭 강화)
-      document.querySelectorAll('.toc-item').forEach(item => {
-        if (item.getAttribute('href') === `#${activeId}`) {
-          item.classList.add('active', 'text-emerald-700', 'bg-emerald-100/70', 'border-emerald-500');
-          item.classList.remove('text-slate-600', 'hover:bg-slate-50', 'border-transparent');
-        } else {
-          item.classList.remove('active', 'text-emerald-700', 'bg-emerald-100/70', 'border-emerald-500');
-          item.classList.add('text-slate-600', 'hover:bg-slate-50', 'border-transparent');
-        }
-      });
-    });
 
     // 왼쪽 버튼 (가든 스탬프 투어) 데이터 매핑
     function clickLeftButton() {
@@ -1292,22 +1128,22 @@
         openModal(
           '가든 스탬프 투어', 
           'https://snoopy.jstamp.net/login', 
-          '👣', 
+          '🐾', 
           '#008fd5', 
           '발바닥 모양을 눌러 스탬프를 찍고,<br>퀴즈를 풀어 스탬프를 모아보세요.', 
           [
             '카카오톡, Google, Apple 계정으로 로그인합니다.', 
             '스탬프 투어 메뉴를 클릭하세요.', 
             '발바닥 아이콘을 누르고, 가든 곳곳에 비치된 스탬프를 찍어보세요.', 
-            '스탬프 8개를 모두 모으면, 스토어에서 소정의 기념품을 받으실 수 있습니다.'
+            '스탬프 8개를 모두 모으면, 스토어에서 소정의 기념품을 받을 수 있습니다.'
           ]
         );
       } else {
-        // 영어 버전일 때는 목적지 주소 뒤에 ?lang=en 결합
+        // 💡 영문 버전일 때 목적지 주소 뒤에 ?lang=en 결합
         openModal(
           'Garden Stamp Tour', 
           'https://snoopy.jstamp.net/login?lang=en', 
-          '👣', 
+          '🐾', 
           '#008fd5', 
           'Press the footprint to stamp,<br>solve quizzes, and collect stamps.', 
           [
@@ -1326,22 +1162,22 @@
         openModal(
           '가드너 클래스: 나무 찾기 미션', 
           'https://plantclass.vercel.app', 
-          '🌳', 
+          '🌿', 
           '#2c9942', 
           '야외 가든 지도를 열고<br>반짝이는 핀을 찾아가세요!<br>나무 설명을 읽고 퀴즈를 풀어보세요!', 
           [
             '지도에 표시된 핀을 순서대로 따라가 보세요.', 
             '각 나무에 해당하는 퀴즈를 모두 풀어보세요.', 
-            '최종 테스트를 완료하고 디지털 인증서를 받아보세요.', 
-            '설문 완료 화면을 매표소에 제시하시면 소정의 리워드를 수령하실 수 있습니다.'
+            '최종 테스트를 완료하고 디지털 인증서를 받아보세요!', 
+            '설문 완료 화면을 매표소에 제시하면 소정의 리워드를 수령할 수 있습니다.'
           ]
         );
       } else {
-        // 영어 버전일 때는 목적지 주소 뒤에 ?lang=en 결합
+        // 💡 영문 버전일 때 목적지 주소 뒤에 ?lang=en 결합
         openModal(
           'Gardener Class: Tree Mission', 
           'https://plantclass.vercel.app/?lang=en', 
-          '🌳', 
+          '🌿', 
           '#2c9942', 
           'Open the outdoor garden map<br>and find the glowing pins!<br>Read tree descriptions and solve quizzes!', 
           [
@@ -1354,30 +1190,31 @@
       }
     }
 
-    // 공용 모달 데이터 적용 및 노출
-    function openModal(title, url, icon, color, desc, steps) {
-        const modal = document.getElementById('modal');
-        document.getElementById('modal-title').innerText = title;
-        document.getElementById('modal-desc').innerHTML = desc;
-        document.getElementById('modal-link').href = url;
-        document.getElementById('modal-icon').innerText = icon;
-        
-        // 언어에 따라 버튼 텍스트 동적 변경
-        document.getElementById('modal-link').innerText = currentLang === 'ko' ? '바로가기' : 'GO';
-        
-        document.getElementById('modal-content').innerHTML = steps.map((step, index) => `
-            <div class="flex items-start gap-3">
-                <span class="flex-shrink-0 font-extrabold text-[10px] md:text-xs px-2 py-1 rounded-md bg-slate-200 text-slate-600">Step ${index + 1}</span>
-                <span class="leading-relaxed break-keep text-slate-700 responsive-text">${step}</span>
-            </div>
-        `).join('');
+// 공용 모달 데이터 적용 및 노출
+function openModal(title, url, icon, color, desc, steps) {
+    const modal = document.getElementById('modal');
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-desc').innerHTML = desc;
+    document.getElementById('modal-link').href = url;
+    document.getElementById('modal-icon').innerText = icon;
+    
+    // 💡 주석 처리 기호(//)를 꼭 붙여주세요!
+    // 언어에 따라 버튼 텍스트 동적 변경 변경
+    document.getElementById('modal-link').innerText = currentLang === 'ko' ? '바로가기' : 'GO';
+    
+    document.getElementById('modal-content').innerHTML = steps.map((step, index) => `
+        <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 font-extrabold text-[10px] md:text-xs px-2 py-1 rounded-md bg-slate-200 text-slate-600">Step ${index + 1}</span>
+            <span class="leading-relaxed break-keep text-slate-700 responsive-text">${step}</span>
+        </div>
+    `).join('');
 
-        const iconEl = document.getElementById('modal-icon');
-        iconEl.style.backgroundColor = color + '15';
-        iconEl.style.color = color;
-        document.getElementById('modal-link').style.backgroundColor = color;
-        modal.classList.remove('hidden');
-    }
+    const iconEl = document.getElementById('modal-icon');
+    iconEl.style.backgroundColor = color + '15';
+    iconEl.style.color = color;
+    document.getElementById('modal-link').style.backgroundColor = color;
+    modal.classList.remove('hidden');
+}
 
     function closeModal() { 
         document.getElementById('modal').classList.add('hidden'); 

@@ -1102,7 +1102,14 @@
   <script>
     let currentLang = 'ko';
 
-    function loadPage(lang) {
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function loadPage(lang, targetId) {
       currentLang = lang;
       const viewSection = document.getElementById('pageView');
       const imgTarget = document.getElementById('pageImage');
@@ -1118,107 +1125,73 @@
       viewSection.style.display = 'block';
       
       setTimeout(() => {
-        viewSection.scrollIntoView({ behavior: 'smooth' });
-      }, 50);
+        const hash = targetId || window.location.hash.replace('#', '');
+        const targetEl = hash ? document.getElementById(hash) : null;
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          viewSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
     }
 
-    // 왼쪽 버튼 (가든 스탬프 투어) 데이터 매핑
+    // 목차 왼쪽 버튼 (캠프 / 가든 스탬프 투어) 클릭 시 해당 섹션(sec-camp)으로 이동
     function clickLeftButton() {
-      if (currentLang === 'ko') {
-        openModal(
-          '가든 스탬프 투어', 
-          'https://snoopy.jstamp.net/login', 
-          '🐾', 
-          '#008fd5', 
-          '발바닥 모양을 눌러 스탬프를 찍고,<br>퀴즈를 풀어 스탬프를 모아보세요.', 
-          [
-            '카카오톡, Google, Apple 계정으로 로그인합니다.', 
-            '스탬프 투어 메뉴를 클릭하세요.', 
-            '발바닥 아이콘을 누르고, 가든 곳곳에 비치된 스탬프를 찍어보세요.', 
-            '스탬프 8개를 모두 모으면, 스토어에서 소정의 기념품을 받을 수 있습니다.'
-          ]
-        );
-      } else {
-        // 💡 영문 버전일 때 목적지 주소 뒤에 ?lang=en 결합
-        openModal(
-          'Garden Stamp Tour', 
-          'https://snoopy.jstamp.net/login?lang=en', 
-          '🐾', 
-          '#008fd5', 
-          'Press the footprint to stamp,<br>solve quizzes, and collect stamps.', 
-          [
-            'Log in with Kakao, Google, or Apple accounts.', 
-            'Click on the Stamp Tour menu.', 
-            'Press the footprint icon and stamp at designated spots throughout the garden.', 
-            'Collect all 8 stamps to get a small souvenir at the store.'
-          ]
-        );
-      }
+      scrollToSection('sec-camp');
     }
 
-    // 오른쪽 버튼 (가드너 클래스) 데이터 매핑
+    // 목차 오른쪽 버튼 (소베니어 / 가드너 클래스) 클릭 시 해당 섹션(sec-souvenir)으로 이동
     function clickRightButton() {
-      if (currentLang === 'ko') {
-        openModal(
-          '가드너 클래스: 나무 찾기 미션', 
-          'https://plantclass.vercel.app', 
-          '🌿', 
-          '#2c9942', 
-          '야외 가든 지도를 열고<br>반짝이는 핀을 찾아가세요!<br>나무 설명을 읽고 퀴즈를 풀어보세요!', 
-          [
-            '지도에 표시된 핀을 순서대로 따라가 보세요.', 
-            '각 나무에 해당하는 퀴즈를 모두 풀어보세요.', 
-            '최종 테스트를 완료하고 디지털 인증서를 받아보세요!', 
-            '설문 완료 화면을 매표소에 제시하면 소정의 리워드를 수령할 수 있습니다.'
-          ]
-        );
-      } else {
-        // 💡 영문 버전일 때 목적지 주소 뒤에 ?lang=en 결합
-        openModal(
-          'Gardener Class: Tree Mission', 
-          'https://plantclass.vercel.app/?lang=en', 
-          '🌿', 
-          '#2c9942', 
-          'Open the outdoor garden map<br>and find the glowing pins!<br>Read tree descriptions and solve quizzes!', 
-          [
-            'Follow the pins on the map in sequence.', 
-            'Solve all the quizzes for each tree.', 
-            'Complete the final test to receive a digital certificate!', 
-            'Present the survey completion screen at the ticket office to get a reward.'
-          ]
-        );
-      }
+      scrollToSection('sec-souvenir');
     }
 
-// 공용 모달 데이터 적용 및 노출
-function openModal(title, url, icon, color, desc, steps) {
-    const modal = document.getElementById('modal');
-    document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-desc').innerHTML = desc;
-    document.getElementById('modal-link').href = url;
-    document.getElementById('modal-icon').innerText = icon;
-    
-    // 💡 주석 처리 기호(//)를 꼭 붙여주세요!
-    // 언어에 따라 버튼 텍스트 동적 변경 변경
-    document.getElementById('modal-link').innerText = currentLang === 'ko' ? '바로가기' : 'GO';
-    
-    document.getElementById('modal-content').innerHTML = steps.map((step, index) => `
-        <div class="flex items-start gap-3">
-            <span class="flex-shrink-0 font-extrabold text-[10px] md:text-xs px-2 py-1 rounded-md bg-slate-200 text-slate-600">Step ${index + 1}</span>
-            <span class="leading-relaxed break-keep text-slate-700 responsive-text">${step}</span>
-        </div>
-    `).join('');
+    // 공용 모달 데이터 적용 및 노출
+    function openModal(title, url, icon, color, desc, steps) {
+        const modal = document.getElementById('modal');
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-desc').innerHTML = desc;
+        document.getElementById('modal-link').href = url;
+        document.getElementById('modal-icon').innerText = icon;
+        
+        document.getElementById('modal-link').innerText = currentLang === 'ko' ? '바로가기' : 'GO';
+        
+        document.getElementById('modal-content').innerHTML = steps.map((step, index) => `
+            <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 font-extrabold text-[10px] md:text-xs px-2 py-1 rounded-md bg-slate-200 text-slate-600">Step ${index + 1}</span>
+                <span class="leading-relaxed break-keep text-slate-700 responsive-text">${step}</span>
+            </div>
+        `).join('');
 
-    const iconEl = document.getElementById('modal-icon');
-    iconEl.style.backgroundColor = color + '15';
-    iconEl.style.color = color;
-    document.getElementById('modal-link').style.backgroundColor = color;
-    modal.classList.remove('hidden');
-}
+        const iconEl = document.getElementById('modal-icon');
+        iconEl.style.backgroundColor = color + '15';
+        iconEl.style.color = color;
+        document.getElementById('modal-link').style.backgroundColor = color;
+        modal.classList.remove('hidden');
+    }
 
     function closeModal() { 
         document.getElementById('modal').classList.add('hidden'); 
     }
+
+    // URL 파라미터 및 해시(#sec-camp, #sec-souvenir) 감지 후 자동 스크롤 처리
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const langParam = urlParams.get('lang');
+      const hash = window.location.hash.replace('#', '') || urlParams.get('sec') || urlParams.get('target');
+      
+      if (langParam === 'en' || langParam === 'ko') {
+        loadPage(langParam, hash);
+      } else if (hash) {
+        loadPage(currentLang, hash);
+      }
+    });
+
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        scrollToSection(hash);
+      }
+    });
   </script>
 </body>
 </html>
